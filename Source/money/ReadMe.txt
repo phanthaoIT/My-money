@@ -3,7 +3,7 @@ Họ và tên: Phan Thị Thảo
 MSSV: 1512518
 Email: ptthao.itus@gmail.com
 -----------------------------------
-link youtube: https://youtu.be/yGHN1Hx-feg
+link youtube: https://youtu.be/6bmWLTIHoEc
 link github: https://github.com/phanthaoIT/My-money.git
 ----------------------------------
 Danh sách các chức năng đã làm được:
