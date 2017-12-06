@@ -3,8 +3,8 @@ Họ và tên: Phan Thị Thảo
 MSSV: 1512518
 Email: ptthao.itus@gmail.com
 -----------------------------------
-link youtube: https://youtu.be/3v-EMe833Fo
-link github:
+link youtube: https://youtu.be/yGHN1Hx-feg
+link github: https://github.com/phanthaoIT/My-money.git
 ----------------------------------
 Danh sách các chức năng đã làm được:
 
@@ -17,5 +17,7 @@ Danh sách các chức năng đã làm được:
 - Khi chương trình thoát thì tự động lưu danh sách mới vào tập tin text.
 3. Thống kê trực quan bằng biểu đồ
 -Biểu đồ hình tròn
-- Có bảng chú giải
+- Có bảng chú giải và phần trăm các loại chi tiêu
 - Khi chưa có chi tiêu nào thì chưa hiện biểu đồ.
+4. Chức năng clear
+- Xóa hết các chi tiêu cá nhân đã thêm vào.

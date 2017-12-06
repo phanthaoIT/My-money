@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "stdafx.h"
 #include "money.h"
+#include "Resource.h"
 #include <commctrl.h>
 #include <string>
 #include <cwchar>
@@ -28,6 +29,8 @@ ULONG_PTR           gdiplusToken;
 #define MAX_LOADSTRING 100
 #define IDL_LISTVIEW 20
 #define ID_ADD		21
+#define ID_XOA		22
+
 
 TCHAR* type[10] = {
 	L"Ăn uống", L"Di chuyển", L"Nhà cửa",
@@ -52,6 +55,8 @@ int vtitem;
 Color mau[6] = { Color(255, 255, 0, 0), Color(255, 0, 255, 0), Color(255, 0, 0, 255), Color(255, 249, 244, 0), Color(255, 0, 178, 191), Color(255, 81, 31, 144) };
 vector<float> toado;
 vector<int>color;
+HWND p1, p2, p3, p4, p5, p6;
+HWND percent[6] = { p1, p2, p3, p4, p5, p6 };
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
@@ -117,7 +122,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON2));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground = CreateSolidBrush(RGB(201, 228, 214));
-	wcex.lpszMenuName	= NULL;
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDR_MENU1);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON2));
 
@@ -141,7 +146,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    hWnd = CreateWindow(szWindowClass, szTitle,WS_OVERLAPPED | WS_SYSMENU | WS_ICONIC | WS_MINIMIZEBOX,
-      300,0,600,650, NULL, NULL, hInstance, NULL);
+      300,0,600,680, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -348,6 +353,12 @@ void drawchart()
 		}
 	}
 }
+void setText(HWND hwnd, long long value, wstring text)
+{
+	WCHAR s[255];
+	wsprintf(s, L"%ld", value);
+	SetWindowText(hwnd, ((wstring)s+text).c_str());
+}
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
@@ -384,35 +395,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					  SendMessage(groupB, WM_SETFONT, WPARAM(hFont), TRUE);
 					  g_ListView = createListView(hWnd, IDL_LISTVIEW, hInst,230,50,320,210);
 
-					  HWND groupC = CreateWindow(L"BUTTON", L"Thống kê", WS_CHILD | WS_VISIBLE | BS_GROUPBOX | WS_GROUP, 20, 290, 540, 310, hWnd, NULL, hInst, NULL);
+					  HWND groupC = CreateWindow(L"BUTTON", L"Thống kê", WS_CHILD | WS_VISIBLE | BS_GROUPBOX | WS_GROUP, 20, 290, 540, 340, hWnd, NULL, hInst, NULL);
 					  SendMessage(groupC, WM_SETFONT, WPARAM(hFont), TRUE);
 					  HFONT font = CreateFont(28, lf.lfWidth,
 						  lf.lfEscapement, lf.lfOrientation, lf.lfWeight,
 						  lf.lfItalic, lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet,
 						  lf.lfOutPrecision, lf.lfClipPrecision, lf.lfQuality,
 						  lf.lfPitchAndFamily, lf.lfFaceName);
-					  tong = CreateWindow(L"STATIC", L"Tổng cộng:", WS_CHILD | WS_VISIBLE, 240, 500, 130, 50, hWnd, NULL, hInst, NULL);
+					  tong = CreateWindow(L"STATIC", L"Tổng cộng:", WS_CHILD | WS_VISIBLE, 240, 580, 130, 50, hWnd, NULL, hInst, NULL);
 					  SendMessage(tong, WM_SETFONT, WPARAM(font), TRUE);
-					  money = CreateWindow(L"STATIC", L"", WS_CHILD | WS_VISIBLE, 370, 500, 150, 30, hWnd, NULL, hInst, NULL);
+					  money = CreateWindow(L"STATIC", L"", WS_CHILD | WS_VISIBLE, 370, 580, 150, 30, hWnd, NULL, hInst, NULL);
 					  SendMessage(money, WM_SETFONT, WPARAM(font), TRUE);
 					  SetTextColor((HDC)tong, RGB(255, 0, 0));
 
-					  groupD = CreateWindow(L"BUTTON", L"Chú Giải", WS_CHILD | BS_GROUPBOX | WS_GROUP, 240 , 340, 290,120, hWnd, NULL, hInst, NULL);
+					  groupD = CreateWindow(L"BUTTON", L"Chú Giải", WS_CHILD | BS_GROUPBOX | WS_GROUP, 240 ,340, 290,210, hWnd, NULL, hInst, NULL);
 					  SendMessage(groupD, WM_SETFONT, WPARAM(hFont), TRUE);
-					  a = CreateWindow(L"STATIC", L"Ăn uống", WS_CHILD , 290, 370, 100, 20, hWnd, NULL, hInst, NULL);
+					  a = CreateWindow(L"STATIC", L"Ăn uống", WS_CHILD , 290, 370, 200, 20, hWnd, NULL, hInst, NULL);
 					  SendMessage(a, WM_SETFONT, WPARAM(hFont), TRUE);
-					  b = CreateWindow(L"STATIC", L"Di chuyển", WS_CHILD , 290, 400, 100, 50, hWnd, NULL, hInst, NULL);
+					  b = CreateWindow(L"STATIC", L"Di chuyển", WS_CHILD , 290, 400, 200, 50, hWnd, NULL, hInst, NULL);
 					  SendMessage(b, WM_SETFONT, WPARAM(hFont), TRUE);
-					  c = CreateWindow(L"STATIC", L"Nhà cửa", WS_CHILD , 290, 430, 100, 50, hWnd, NULL, hInst, NULL);
+					  c = CreateWindow(L"STATIC", L"Nhà cửa", WS_CHILD , 290, 430, 200, 50, hWnd, NULL, hInst, NULL);
 					  SendMessage(c, WM_SETFONT, WPARAM(hFont), TRUE);
-					  d = CreateWindow(L"STATIC", L"Xe cộ", WS_CHILD , 430, 370, 100, 50, hWnd, NULL, hInst, NULL);
+					  d = CreateWindow(L"STATIC", L"Xe cộ", WS_CHILD ,290,460,200,50, hWnd, NULL, hInst, NULL);
 					  SendMessage(d, WM_SETFONT, WPARAM(hFont), TRUE);
-					  e = CreateWindow(L"STATIC", L"Nhu yếu phẩm", WS_CHILD, 430, 400, 130, 50, hWnd, NULL, hInst, NULL);
+					  e = CreateWindow(L"STATIC", L"Nhu yếu phẩm", WS_CHILD,290,490,200,50, hWnd, NULL, hInst, NULL);
 					  SendMessage(e, WM_SETFONT, WPARAM(hFont), TRUE);
-					  f = CreateWindow(L"STATIC", L"Dịch vụ", WS_CHILD , 430, 430, 100, 50, hWnd, NULL, hInst, NULL);
+					  f = CreateWindow(L"STATIC", L"Dịch vụ", WS_CHILD , 290,520,200,50,hWnd, NULL, hInst, NULL);
 					  SendMessage(f, WM_SETFONT, WPARAM(hFont), TRUE);
-					  my = CreateWindow(L"STATIC", L"MY MONEY", WS_CHILD | WS_VISIBLE, 240, 550, 150, 50, hWnd, NULL, hInst, NULL);
-					  SendMessage(my, WM_SETFONT, WPARAM(font), TRUE);
+					  for (int i = 0; i < 6;i++)
+						  percent[i] = CreateWindow(L"STATIC", L"", WS_CHILD|WS_VISIBLE, 430, 370+i*30, 200, 50,hWnd, NULL, hInst, NULL);
 					  for (int i = 0; i < 6; i++)
 					  {
 						  SendMessage(loai, CB_ADDSTRING, i, (LPARAM)type[i]);
@@ -445,6 +456,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// Parse the menu selections:
 		switch (wmId)
 		{
+		case ID_FILE_CLEAR:
+			sum = 0;
+			vtitem = 0;
+			setText(money, 0, L"");
+			ListView_DeleteAllItems(g_ListView);
+			list.clear();
+			InvalidateRect(hWnd, NULL, 1);
+			break;
 		case ID_ADD:
 		{
 					   if (insertListView(g_ListView, vtitem))
@@ -456,12 +475,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						   InvalidateRect(hWnd, NULL, 1);
 					   }
 		}
-			break;
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -477,11 +490,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					 Brush* brush = NULL;
 					 if (sum > 0)
 					 {
-						 graphics->DrawEllipse(pen, 40, 320, 180, 180);
+						 graphics->DrawEllipse(pen, 40, 360, 180, 180);
 						 while (i < toado.size() - 1)
 						 {
 							 brush = new SolidBrush(mau[color[i]]);
-							 graphics->FillPie(brush, Rect(40, 320, 180, 180), -toado[i], -toado[i + 1] + toado[i]);
+							 graphics->FillPie(brush, Rect(40, 360, 180, 180), -toado[i], -toado[i + 1] + toado[i]);
 							 i++;
 						 }
 						 ShowWindow(groupD, SW_SHOW);
@@ -491,16 +504,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						 ShowWindow(d, SW_SHOW);
 						 ShowWindow(e, SW_SHOW);
 						 ShowWindow(f, SW_SHOW);
-						 for (int i = 0; i < 3; i++)
+						 for (int i = 0; i < 6; i++)
+							ShowWindow(percent[i], SW_SHOW);
+						 for (int i = 0; i < 6; i++)
 						 {
 							 brush = new SolidBrush(mau[i]);
 							 graphics->FillPie(brush, Rect(230, 360 + i * 30, 50, 50), 0, -45);
+							 double phantram = (double)total[i] / sum;
+							 setText(percent[i], phantram * 100, L" %");
 						 }
-						 for (int i = 3; i < 6; i++)
-						 {
-							 brush = new SolidBrush(mau[i]);
-							 graphics->FillPie(brush, Rect(370, 270 + i * 30, 50, 50), 0, -45);
-						 }
+					 }
+					 else
+					 {
+						 ShowWindow(groupD, SW_HIDE);
+						 ShowWindow(a, SW_HIDE);
+						 ShowWindow(b, SW_HIDE);
+						 ShowWindow(c, SW_HIDE);
+						 ShowWindow(d, SW_HIDE);
+						 ShowWindow(e, SW_HIDE);
+						 ShowWindow(f, SW_HIDE);
+						 for (int i = 0; i < 6;i++)
+							 ShowWindow(percent[i], SW_HIDE);
 					 }
 					 delete graphics;
 					 EndPaint(hWnd, &ps);
@@ -517,22 +541,3 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		break;
-	}
-	return (INT_PTR)FALSE;
-}
