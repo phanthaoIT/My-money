@@ -15,9 +15,11 @@ Danh sách các chức năng đã làm được:
 2. Xem lại danh sách các mục chi của mình, lưu và nạp vào tập tin text
 - Dùng listview: Khi chương trình chạy lên tự động nạp danh sách chi tiêu từ tập tin text lên và hiển thị 
 - Khi chương trình thoát thì tự động lưu danh sách mới vào tập tin text.
+- Hỗ trợ lưu và nạp tiếng việt 
 3. Thống kê trực quan bằng biểu đồ
 -Biểu đồ hình tròn
 - Có bảng chú giải và phần trăm các loại chi tiêu
 - Khi chưa có chi tiêu nào thì chưa hiện biểu đồ.
+4. Chức năng clear: xóa hết các chi tiêu đã thêm
 4. Chức năng clear
 - Xóa hết các chi tiêu cá nhân đã thêm vào.
